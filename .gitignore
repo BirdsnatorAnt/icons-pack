@@ -1,0 +1,2 @@
+# build artefacts are never committed - this folder IS the published site
+*.log

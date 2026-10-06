@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icons Pack — 650 іконок Windows у одному DLL</title>
+<meta name="description" content="Набір із 650 класичних іконок Windows в одному файлі icons.dll. setup.exe скопіює його в System32.">
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="window">
+  <div class="titlebar">
+    <span class="titlebar__icon"></span>
+    <span class="titlebar__text">Icons Pack — завантаження</span>
+    <span class="titlebar__buttons"><i>_</i><i>□</i><i>✕</i></span>
+  </div>
+
+  <div class="menubar">
+    <span>Файл</span><span>Правка</span><span>Вигляд</span><span>Довідка</span>
+  </div>
+
+  <main class="window__body">
+
+    <!-- ============================ hero ============================ -->
+    <section class="hero">
+      <img class="hero__icon" src="setup.ico" alt="Іконка встановлення" width="64" height="64">
+      <h1>650 іконок Windows<br>в одному <code>icons.dll</code></h1>
+      <p class="hero__lead">
+        Класичні іконки з Windows 95/98/2000/XP: папки, диски, пристрої, мережа,
+        accessibility, ігри, реєстр, друк і все інше. Один файл, 650 ресурсів,
+        ніякої установки «поверх» системних файлів.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="downloads/setup.exe" download>
+          <img src="setup.ico" alt="" width="24" height="24">
+          Завантажити setup.exe
+        </a>
+        <span class="hero__meta">2,8 МБ · Windows · потрібні права адміністратора</span>
+      </div>
+
+      <div class="hero__stats">
+        <div class="stat"><b id="stat-count">650</b><span>іконок</span></div>
+        <div class="stat"><b>2,7 МБ</b><span>icons.dll</span></div>
+        <div class="stat"><b>0</b><span>залежностей</span></div>
+        <div class="stat"><b>22</b><span>іконки з .icl</span></div>
+      </div>
+    </section>
+
+    <!-- =========================== steps ============================ -->
+    <section class="panel">
+      <h2>Що робить setup.exe</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card__num">1</div>
+          <h3>Бере DLL</h3>
+          <p>Поруч із <code>setup.exe</code> лежить <code>icons.dll</code>.
+             Якщо його немає — він вбудований у сам setup.exe, тож вистачить
+             одного файлу.</p>
+        </div>
+        <div class="card">
+          <div class="card__num">2</div>
+          <h3>Кладе в System32</h3>
+          <p>Після підтвердження та запиту UAC файл копіюється у
+             <code>C:\Windows\System32\icons.dll</code>.</p>
+        </div>
+        <div class="card">
+          <div class="card__num">3</div>
+          <h3>Прибрати</h3>
+          <p>Той самий файл видаляє DLL одним рядком:
+             <code>setup.exe /uninstall</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== downloads ========================= -->
+    <section class="panel">
+      <h2>Файли</h2>
+      <table class="files">
+        <tr><td class="files__name">setup.exe</td><td>2,8 МБ</td>
+            <td class="files__desc">Встановлює <code>icons.dll</code> у System32</td>
+            <td><a class="btn btn--small" href="downloads/setup.exe" download>Завантажити</a></td></tr>
+        <tr><td class="files__name">icons.dll</td><td>2,7 МБ</td>
+            <td class="files__desc">Тільки DLL з усіма 650 іконками</td>
+            <td><a class="btn btn--small" href="downloads/icons.dll" download>Завантажити</a></td></tr>
+        <tr><td class="files__name">icons_list.txt</td><td>40 КБ</td>
+            <td class="files__desc">Список назв ресурсів та походження іконок</td>
+            <td><a class="btn btn--small" href="downloads/icons_list.txt" download>Завантажити</a></td></tr>
+      </table>
+    </section>
+
+    <!-- ============================ code ============================ -->
+    <section class="panel">
+      <h2>Як дістати іконку з DLL</h2>
+      <pre class="code"><code>/* за назвою (регистр не важливий) */
+HMODULE dll  = LoadLibraryW(L"icons.dll");
+HICON    icon = (HICON)LoadImageW(dll, L"accessibility",
+                                  IMAGE_ICON, 48, 48, LR_DEFAULTCOLOR);
+
+/* або за номером: 0..649 */
+ExtractIconExW(L"C:\\Windows\\System32\\icons.dll", 0, NULL, &amp;icon, 1);</code></pre>
+      <p class="hint">Назви ресурсів — це імена файлів без розширення
+        (<code>accessibility</code>, <code>recycle_bin_empty</code>,
+        <code>ms-dos</code>). Порівняння без урахування регістру.</p>
+    </section>
+
+    <!-- =========================== gallery ========================== -->
+    <section class="panel">
+      <h2>Галерея <span class="muted">(<span id="shown">650</span> показано)</span></h2>
+      <div class="search">
+        <input id="filter" type="search" placeholder="Пошук: folder, drive, key, network…"
+               autocomplete="off" spellcheck="false">
+        <button id="clear" type="button" title="Очистити">✕</button>
+      </div>
+      <div id="gallery" class="gallery" aria-live="polite"></div>
+      <p id="empty" class="muted" hidden>Нічого не знайдено.</p>
+      <p class="hint">Клацніть іконку, щоб скопіювати її назву ресурсу.</p>
+    </section>
+
+  </main>
+
+  <footer class="statusbar">
+    <span>Готово</span>
+    <span id="status-right">icons.dll · 650 ресурсів</span>
+  </footer>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="icons.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
